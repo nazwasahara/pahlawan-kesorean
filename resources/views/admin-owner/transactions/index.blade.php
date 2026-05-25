@@ -48,7 +48,7 @@
                     <option value="completed" {{ $status === 'completed' ? 'selected' : '' }}>Selesai</option>
                     <option value="cancelled" {{ $status === 'cancelled' ? 'selected' : '' }}>Dibatalkan</option>
                 </select>
-                <div class="absolute inset-y-0 right-3 flex items-center pr-1 pointer-events-none text-gray-600">
+                <div class="absolute inset-y-0 right-3 flex items-center pr-1 pointer-events-none">
                     <i class="ri-arrow-down-s-line text-xs font-black"></i>
                 </div>
             </div>

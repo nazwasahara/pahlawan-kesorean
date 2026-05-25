@@ -13,21 +13,26 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
+        $category = $request->query('category');
 
         $menus = Menu::with('category')
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                    ->orWhereHas('category', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
-                    });
-            })
+        ->when($search, function ($query) use ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhereHas('category', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+        })
+
+        ->when($category, function ($query) use ($category) {
+            $query->where('category_id', $category);
+        })
             ->orderBy('updated_at', 'desc')
             ->paginate(10)
             ->withQueryString();
 
         $categories = Category::orderBy('name', 'asc')->get();
 
-        return view('admin-owner.menus.index', compact('menus', 'search', 'categories'));
+        return view('admin-owner.menus.index', compact('menus', 'search', 'categories', 'category'));
     }
 
     public function store(Request $request)

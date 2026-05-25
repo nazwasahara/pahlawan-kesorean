@@ -150,7 +150,7 @@
                                     </a>
                                 </td>
                                 <td class="py-3.5 px-2 text-gray-650 font-medium truncate max-w-[90px]">{{ $transaction->customer_name }}</td>
-                                <td class="py-3.5 pl-2">
+                                <td class="py-3.5 pl-2 text-center">
                                     @if($transaction->status === 'pending')
                                         <span class="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black tracking-wide shadow-sm" style="background-color: #FFFDE7; color: #856404; border: 1px solid #FFF59D;">
                                             Menunggu

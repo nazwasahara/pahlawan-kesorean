@@ -46,7 +46,7 @@
                 <!-- Dropdown Popover (Shows on Hover) -->
                 <div class="absolute right-0 mt-1 w-80 bg-white border border-gray-200 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-350 transform translate-y-2 group-hover:translate-y-0 z-50 pointer-events-none group-hover:pointer-events-auto">
                     <!-- Popover Header -->
-                    <div class="px-4 py-3 border-b border-gray-150 {{ $user && $user->role === 'owner' ? 'bg-amber-50/70 border-amber-100' : 'bg-emerald-50/70 border-emerald-100' }} rounded-t-3xl">
+                    <div class="px-4 py-3 border-b border-gray-150 {{ $user && $user->role === 'owner' ? 'bg-amber-50/70 border-amber-100' : 'bg-emerald-50/70 border-emerald-100' }} rounded-t-xl">
                         <div class="flex items-center justify-between">
                             <span class="text-[10px] font-extrabold {{ $user && $user->role === 'owner' ? 'text-amber-800' : 'text-emerald-800' }} uppercase tracking-wider">
                                 {{ $user && $user->role === 'owner' ? 'Notifikasi Owner' : 'Notifikasi Admin' }}

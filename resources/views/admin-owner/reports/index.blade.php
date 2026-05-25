@@ -15,12 +15,12 @@
         <!-- Export Actions -->
         <div class="flex items-center gap-3">
             <!-- Excel Export -->
-            <a href="{{ request()->fullUrlWithQuery(['export' => 'excel']) }}" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold py-3 px-5 rounded-2xl shadow-sm hover:shadow transition duration-200 cursor-pointer flex items-center gap-1.5">
+            <a href="{{ request()->fullUrlWithQuery(['export' => 'excel']) }}" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold py-3 px-5 rounded-xl shadow-sm hover:shadow transition duration-200 cursor-pointer flex items-center gap-1.5">
                 <i class="ri-file-excel-2-line text-sm"></i>
                 <span>Ekspor Excel</span>
             </a>
             <!-- PDF Print -->
-            <a href="{{ request()->fullUrlWithQuery(['export' => 'pdf']) }}" target="_blank" class="bg-[#125E34] hover:bg-[#1b5e3a] text-white text-xs font-bold py-3 px-5 rounded-2xl shadow-sm hover:shadow transition duration-200 cursor-pointer flex items-center gap-1.5">
+            <a href="{{ request()->fullUrlWithQuery(['export' => 'pdf']) }}" target="_blank" class="bg-[#125E34] hover:bg-[#1b5e3a] text-white text-xs font-bold py-3 px-5 rounded-xl shadow-sm hover:shadow transition duration-200 cursor-pointer flex items-center gap-1.5">
                 <i class="ri-printer-line text-sm"></i>
                 <span>Cetak PDF</span>
             </a>
@@ -28,60 +28,114 @@
     </div>
 
     <!-- Filter Form Section -->
-    <div class="bg-white border border-gray-200/80 rounded-[2rem] p-6 shadow-sm mb-6">
+    <div class="bg-white border border-gray-200/80 rounded-[1rem] p-6 shadow-sm mb-6">
         <form action="{{ route('admin-owner.reports.index') }}" method="GET" id="report-filter-form" class="space-y-4">
+            
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+
                 <!-- Tipe Laporan -->
                 <div>
-                    <label for="type-select" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">Tipe Laporan</label>
-                    <select name="type" id="type-select" onchange="toggleFilterInputs()" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition">
-                        <option value="harian" {{ $type === 'harian' ? 'selected' : '' }}>Harian</option>
-                        <option value="mingguan" {{ $type === 'mingguan' ? 'selected' : '' }}>Mingguan</option>
-                        <option value="bulanan" {{ $type === 'bulanan' ? 'selected' : '' }}>Bulanan</option>
-                    </select>
+                    <label for="type-select" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">
+                        Tipe Laporan
+                    </label>
+
+                    <div class="relative">
+                        <select 
+                            name="type" 
+                            id="type-select"
+                            onchange="toggleFilterInputs()"
+                            class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 pr-10 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition"
+                        >
+                            <option value="harian" {{ $type === 'harian' ? 'selected' : '' }}>Harian</option>
+                            <option value="mingguan" {{ $type === 'mingguan' ? 'selected' : '' }}>Mingguan</option>
+                            <option value="bulanan" {{ $type === 'bulanan' ? 'selected' : '' }}>Bulanan</option>
+                        </select>
+
+                        <i class="ri-arrow-down-s-line absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    </div>
                 </div>
 
-                <!-- Monthly / Yearly Filters Container -->
+                <!-- Monthly / Yearly Filters -->
                 <div id="monthly-filters" class="col-span-2 grid grid-cols-2 gap-4">
+
                     <!-- Bulan -->
                     <div>
-                        <label for="month-select" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">Bulan</label>
-                        <select name="month" id="month-select" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition">
-                            @foreach(range(1, 12) as $m)
-                                <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
-                                    {{ Carbon\Carbon::create(null, $m, 1)->translatedFormat('F') }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <label for="month-select" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">
+                            Bulan
+                        </label>
+
+                        <div class="relative">
+                            <select 
+                                name="month" 
+                                id="month-select"
+                                class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 pr-10 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition"
+                            >
+                                @foreach(range(1, 12) as $m)
+                                    <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
+                                        {{ Carbon\Carbon::create(null, $m, 1)->translatedFormat('F') }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <i class="ri-arrow-down-s-line absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                        </div>
                     </div>
+
                     <!-- Tahun -->
                     <div>
-                        <label for="year-select" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">Tahun</label>
-                        <select name="year" id="year-select" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition">
-                            @foreach($availableYears as $y)
-                                <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
-                          @endforeach
-                      </select>
-                  </div>
-              </div>
+                        <label for="year-select" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">
+                            Tahun
+                        </label>
 
-              <!-- Date Filter (for Daily/Weekly) -->
-              <div id="date-filters" class="col-span-2 hidden">
-                  <div>
-                      <label for="date-input" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">Pilih Tanggal</label>
-                      <input type="date" name="date" id="date-input" value="{{ $dateStr }}" class="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition">
-                  </div>
-              </div>
+                        <div class="relative">
+                            <select 
+                                name="year" 
+                                id="year-select"
+                                class="appearance-none w-full bg-gray-50 border border-gray-200 rounded-xl px-4 pr-10 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition"
+                            >
+                                @foreach($availableYears as $y)
+                                    <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
+                                        {{ $y }}
+                                    </option>
+                                @endforeach
+                            </select>
 
-              <!-- Filter Action Button -->
-              <div>
-                  <button type="submit" class="w-full bg-[#125E34] hover:bg-[#1b5e3a] text-white text-xs font-bold py-3.5 px-6 rounded-2xl shadow-sm hover:shadow transition duration-200 cursor-pointer flex items-center justify-center gap-1.5">
-                      <i class="ri-filter-3-line"></i>
-                      <span>Terapkan</span>
-                  </button>
-              </div>
-          </div>
-      </form>
+                            <i class="ri-arrow-down-s-line absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Date Filter -->
+                <div id="date-filters" class="col-span-2 hidden">
+                    <div>
+                        <label for="date-input" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-wider mb-2">
+                            Pilih Tanggal
+                        </label>
+
+                        <input 
+                            type="date" 
+                            name="date" 
+                            id="date-input"
+                            value="{{ $dateStr }}"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-xs font-bold text-gray-800 focus:outline-none focus:border-[#125E34] transition"
+                        >
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div>
+                    <button 
+                        type="submit"
+                        class="w-full bg-[#125E34] hover:bg-[#1b5e3a] text-white text-xs font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition duration-200 cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                        <i class="ri-filter-3-line"></i>
+                        <span>Terapkan</span>
+                    </button>
+                </div>
+
+            </div>
+        </form>
     </div>
 
     <!-- Active Period Indicator -->
@@ -99,7 +153,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- CARD 1: PEMASUKAN (REVENUE) -->
-        <div class="bg-white border border-gray-200/80 rounded-[2.5rem] p-8 shadow-sm transition hover:shadow-md flex flex-col items-center justify-center text-center">
+        <div class="bg-white border border-gray-200/80 rounded-[1rem] p-8 shadow-sm transition hover:shadow-md flex flex-col items-center justify-center text-center">
             <!-- Icon Circle -->
             <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: #125E34; color: #ffffff;">
                 <i class="ri-arrow-up-line text-2xl"></i>
@@ -144,7 +198,7 @@
         </div>
 
         <!-- CARD 2: PENGELUARAN (EXPENSES) -->
-        <div class="bg-white border border-gray-200/80 rounded-[2.5rem] p-8 shadow-sm transition hover:shadow-md flex flex-col items-center justify-center text-center">
+        <div class="bg-white border border-gray-200/80 rounded-[1rem] p-8 shadow-sm transition hover:shadow-md flex flex-col items-center justify-center text-center">
             <!-- Icon Circle -->
             <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: #E53935; color: #ffffff;">
                 <i class="ri-arrow-down-line text-2xl"></i>
@@ -189,7 +243,7 @@
         </div>
 
         <!-- CARD 3: LABA BERSIH -->
-        <div class="bg-white border border-gray-200/80 rounded-[2.5rem] p-8 shadow-sm transition hover:shadow-md flex flex-col items-center justify-center text-center">
+        <div class="bg-white border border-gray-200/80 rounded-[1rem] p-8 shadow-sm transition hover:shadow-md flex flex-col items-center justify-center text-center">
             <!-- Icon Circle -->
             <div class="w-16 h-16 rounded-full flex items-center justify-center mb-6" style="background-color: #1E88E5; color: #ffffff;">
                 <i class="ri-line-chart-line text-2xl"></i>
@@ -231,7 +285,7 @@
     <!-- Details Tables Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
         <!-- Pemasukan Table Card -->
-        <div class="bg-white border border-gray-200/80 rounded-[2rem] p-6 shadow-sm flex flex-col">
+        <div class="bg-white border border-gray-200/80 rounded-[1rem] p-6 shadow-sm flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-sm font-black text-gray-800 uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
@@ -271,7 +325,7 @@
         </div>
 
         <!-- Pengeluaran Table Card -->
-        <div class="bg-white border border-gray-200/80 rounded-[2rem] p-6 shadow-sm flex flex-col">
+        <div class="bg-white border border-gray-200/80 rounded-[1rem] p-6 shadow-sm flex flex-col">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-sm font-black text-gray-800 uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full" style="background-color: #E53935;"></span>
@@ -308,7 +362,7 @@
     </div>
 
     <!-- Total Summary Section -->
-    <div class="max-w-md ml-auto mt-8 space-y-4 bg-white p-6 rounded-3xl border border-gray-200/80 shadow-sm">
+    <div class="max-w-md ml-auto mt-8 space-y-4 bg-white p-6 rounded-2xl border border-gray-200/80 shadow-sm">
         <div class="flex items-center justify-between text-sm font-bold text-gray-800">
             <span>Total Pemasukan:</span>
             <span class="text-[#125E34] text-base font-extrabold">Rp{{ number_format($revenue, 0, ',', '.') }}</span>

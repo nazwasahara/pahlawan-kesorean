@@ -43,24 +43,56 @@
         @endif
     </div>
 
-    <!-- Search Section -->
+    <!-- Search & Filter Section -->
     <div class="flex justify-end">
-        <form action="{{ route('admin-owner.menus.index') }}" method="GET" class="flex items-center gap-2 w-full max-w-sm">
-            <div class="relative flex-1">
+        <form action="{{ route('admin-owner.menus.index') }}" 
+            method="GET" 
+            class="flex flex-wrap items-center gap-3 w-full max-w-2xl justify-end">
+
+            <!-- Search Input -->
+            <div class="relative flex-1 min-w-[220px]">
                 <input type="text" 
-                       name="search" 
-                       value="{{ $search }}"
-                       placeholder="Cari Menu.." 
-                       class="w-full bg-white border border-gray-200 rounded-xl py-2 px-5 pr-10 text-xs font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#125E34] focus:border-[#125E34]">
+                    name="search" 
+                    value="{{ $search }}"
+                    placeholder="Cari Menu.." 
+                    class="w-full bg-white border border-gray-200 rounded-xl py-2 px-5 pr-10 text-xs font-semibold text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#125E34] focus:border-[#125E34]">
+
                 @if($search)
-                    <a href="{{ route('admin-owner.menus.index') }}" class="absolute right-3 top-1 text-gray-450 hover:text-gray-700">
+                    <a href="{{ route('admin-owner.menus.index') }}" 
+                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 flex items-center justify-center">
                         <i class="ri-close-line text-sm"></i>
                     </a>
                 @endif
             </div>
-            <button type="submit" class="w-9 h-9 bg-[#125E34] hover:bg-[#0E4A28] text-white rounded-xl flex items-center justify-center shadow transition-colors shrink-0">
+
+            <!-- Search Button -->
+            <button type="submit" 
+                    class="w-9 h-9 bg-[#125E34] hover:bg-[#0E4A28] text-white rounded-xl flex items-center justify-center shadow transition-colors shrink-0">
                 <i class="ri-search-line text-base"></i>
             </button>
+
+            <!-- Category Dropdown -->
+            <div class="relative">
+                <select name="category" 
+                        onchange="this.form.submit()"
+                        class="appearance-none bg-white border border-gray-200 rounded-xl py-2 pl-5 pr-10 text-xs font-bold text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#125E34] focus:border-[#125E34] cursor-pointer">
+
+                    <option value="">Semua Kategori</option>
+
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}"
+                            {{ request('category') == $cat->id ? 'selected' : '' }}>
+                            {{ $cat->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+
+                <!-- Custom Dropdown Icon -->
+                <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                    <i class="ri-arrow-down-s-line text-sm"></i>
+                </div>
+            </div>
         </form>
     </div>
 

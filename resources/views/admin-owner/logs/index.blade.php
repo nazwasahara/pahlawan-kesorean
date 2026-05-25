@@ -21,12 +21,13 @@
                            name="date" 
                            value="{{ $date }}"
                            onchange="this.form.submit()"
-                           class="bg-white border border-gray-350 rounded-full py-2 px-5 text-xs font-bold text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#125E34] focus:border-[#125E34] cursor-pointer">
+                           class="bg-white border border-gray-300 rounded-xl py-2 px-5 text-xs font-bold text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#125E34] focus:border-[#125E34] cursor-pointer">
                 </div>
                 @if($date)
                     <a href="{{ route('admin-owner.logs.index') }}" 
-                       class="text-xs font-black text-red-600 hover:text-red-800 transition">
-                        Reset
+                        class="inline-flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 px-4 py-2 rounded-xl text-xs font-bold transition duration-200 border border-red-100">
+                            <i class="ri-refresh-line"></i>
+                            <span>Reset</span>
                     </a>
                 @endif
             </form>
@@ -34,7 +35,7 @@
     </div>
 
     <!-- Data Table Card Container -->
-    <div class="bg-white border border-gray-200/80 rounded-[2.5rem] p-6 shadow-sm overflow-hidden">
+    <div class="bg-white border border-gray-200/80 rounded-[1rem] p-6 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse border border-gray-200">
                 <thead>
@@ -81,7 +82,7 @@
 
         <!-- Pagination Links -->
         @if($logs->hasPages())
-            <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 mt-4 rounded-b-[2rem]">
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 mt-4">
                 {{ $logs->links() }}
             </div>
         @endif

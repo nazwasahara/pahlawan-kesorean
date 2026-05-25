@@ -35,7 +35,7 @@
         @if(auth()->user()->role === 'owner')
         <div>
             <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" 
-                    class="bg-[#125E34] hover:bg-[#0E4A28] text-white px-5 py-2.5 rounded-full font-black text-xs tracking-wider flex items-center gap-2 shadow-sm transition duration-150">
+                    class="bg-[#125E34] hover:bg-[#0E4A28] text-white px-5 py-2.5 rounded-xl font-black text-xs tracking-wider flex items-center gap-2 shadow-sm transition duration-150">
                 <i class="ri-add-line text-base"></i>
                 <span>Tambah Pegawai</span>
             </button>
