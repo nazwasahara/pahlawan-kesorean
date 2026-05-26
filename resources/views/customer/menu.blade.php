@@ -69,8 +69,11 @@
                     <!-- Product Grid -->
                     <div class="grid grid-cols-2 gap-2.5">
                         @foreach($cat->menus as $menu)
+                            @php
+                                $isHabis = !$menu->is_available || $menu->stock <= 0;
+                            @endphp
                             <div 
-                                class="menu-card relative bg-[#F7EED5]/70 rounded-2xl flex flex-row items-center border border-neutral-200/20 shadow-sm p-1.5 min-h-[96px] cursor-pointer hover:shadow transition duration-200" 
+                                class="menu-card relative bg-[#F7EED5]/70 rounded-2xl flex flex-row items-center border border-neutral-200/20 shadow-sm p-1.5 min-h-[96px] {{ $isHabis ? 'opacity-65 cursor-not-allowed select-none' : 'cursor-pointer hover:shadow transition duration-200' }}"
                                 data-name="{{ strtolower($menu->name) }}"
                             >
                                 <!-- Left: Rounded White Container for Image Placeholder -->
@@ -92,10 +95,16 @@
                                     </p>
                                 </div>
 
-                                <!-- Add Button -->
-                                <button onclick="event.stopPropagation(); addToCart({{ $menu->id }})" class="absolute bottom-1.5 right-1.5 w-6 h-6 bg-[#133122] hover:bg-[#1c4430] text-white rounded-full flex items-center justify-center shadow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
-                                    <i class="ri-add-line text-base font-bold"></i>
-                                </button>
+                                <!-- Add Button or Habis Label -->
+                                @if($isHabis)
+                                    <span class="absolute bottom-2 right-2 px-2.5 py-0.5 bg-red-50 text-red-650 border border-red-200/50 text-[10px] font-extrabold rounded-full shadow-sm">
+                                        Habis
+                                    </span>
+                                @else
+                                    <button onclick="event.stopPropagation(); addToCart({{ $menu->id }})" class="absolute bottom-1.5 right-1.5 w-6 h-6 bg-[#133122] hover:bg-[#1c4430] text-white rounded-full flex items-center justify-center shadow transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
+                                        <i class="ri-add-line text-base font-bold"></i>
+                                    </button>
+                                @endif
                             </div>
                         @endforeach
                     </div>

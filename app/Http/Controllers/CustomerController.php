@@ -33,9 +33,7 @@ class CustomerController extends Controller
 
     public function menu()
     {
-        $categories = Category::with(['menus' => function ($query) {
-            $query->where('is_available', true);
-        }])->get();
+        $categories = Category::with('menus')->get();
 
         return view('customer.menu', compact('categories'));
     }
@@ -83,6 +81,13 @@ class CustomerController extends Controller
         ]);
 
         $menu = Menu::findOrFail($request->menu_id);
+        if (!$menu->is_available || $menu->stock <= 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Menu ini sedang tidak tersedia atau sudah habis.'
+            ], 422);
+        }
+
         $quantity = $request->input('quantity', 1);
         $note = $request->input('note');
 

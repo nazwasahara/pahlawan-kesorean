@@ -273,7 +273,8 @@
                         <!-- Stok -->
                         <div>
                             <label class="block text-sm font-bold text-[#125E34] mb-1.5">Stok</label>
-                            <input type="number" 
+                            <input type="number"
+                                   id="add-menu-stock" 
                                    name="stock" 
                                    required 
                                    placeholder="0" 
@@ -285,7 +286,8 @@
                         <div>
                             <label class="block text-sm font-bold text-[#125E34] mb-1.5">Status</label>
                             <div class="relative">
-                                <select name="is_available" 
+                                <select id="add-menu-available"
+                                        name="is_available"
                                         required 
                                         class="w-full bg-white border border-gray-300 rounded-xl py-2.5 px-4 pr-10 text-xs font-bold text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#125E34] focus:border-[#125E34] appearance-none">
                                     <option value="1">Tersedia</option>
@@ -493,6 +495,48 @@
 </div>
 
 <script>
+    // Sync Add Menu Modal fields
+    document.getElementById('add-menu-stock').addEventListener('input', function() {
+        const stockVal = parseInt(this.value) || 0;
+        if (stockVal === 0) {
+            document.getElementById('add-menu-available').value = '0';
+        } else if (stockVal > 0) {
+            document.getElementById('add-menu-available').value = '1';
+        }
+    });
+
+    document.getElementById('add-menu-available').addEventListener('change', function() {
+        const availableVal = this.value;
+        const stockInput = document.getElementById('add-menu-stock');
+        const stockVal = parseInt(stockInput.value) || 0;
+        if (availableVal === '0') {
+            stockInput.value = '0';
+        } else if (availableVal === '1' && stockVal === 0) {
+            stockInput.value = '1';
+        }
+    });
+
+    // Sync Edit Menu Modal fields
+    document.getElementById('edit-menu-stock').addEventListener('input', function() {
+        const stockVal = parseInt(this.value) || 0;
+        if (stockVal === 0) {
+            document.getElementById('edit-menu-available').value = '0';
+        } else if (stockVal > 0) {
+            document.getElementById('edit-menu-available').value = '1';
+        }
+    });
+
+    document.getElementById('edit-menu-available').addEventListener('change', function() {
+        const availableVal = this.value;
+        const stockInput = document.getElementById('edit-menu-stock');
+        const stockVal = parseInt(stockInput.value) || 0;
+        if (availableVal === '0') {
+            stockInput.value = '0';
+        } else if (availableVal === '1' && stockVal === 0) {
+            stockInput.value = '1';
+        }
+    });
+
     function previewImage(input, previewId, placeholderId) {
         const file = input.files[0];
         if (file) {

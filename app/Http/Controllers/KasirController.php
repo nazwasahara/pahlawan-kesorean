@@ -21,7 +21,7 @@ class KasirController extends Controller
     {
         $this->cancelExpiredOrders();
         $categories = Category::orderBy('name')->get();
-        $menus = Menu::where('is_available', true)->get();
+        $menus = Menu::orderBy('name')->get();
 
         $occupiedTables = Order::whereNotIn('status', ['completed', 'cancelled'])
             ->whereNotNull('table_number')

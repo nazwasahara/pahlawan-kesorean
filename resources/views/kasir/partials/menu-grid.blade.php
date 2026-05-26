@@ -38,19 +38,24 @@
     >
 
         @forelse ($menus as $menu)
+            @php
+                $isHabis = !$menu->is_available || $menu->stock <= 0;
+            @endphp
 
             <div
-                class="menu-card bg-white rounded-lg md:rounded-xl border border-gray-200 p-2 md:p-3 cursor-pointer flex flex-col items-center"
+                class="menu-card bg-white rounded-lg md:rounded-xl border border-gray-200 p-2 md:p-3 flex flex-col items-center {{ $isHabis ? 'opacity-60 cursor-not-allowed select-none' : 'cursor-pointer' }}"
                 data-id="{{ $menu->id }}"
                 data-name="{{ strtolower($menu->name) }}"
                 data-category="{{ $menu->category_id }}"
                 data-stock="{{ $menu->stock }}"
+                @if(!$isHabis)
                 onclick="addToCart(
                     {{ $menu->id }},
                     '{{ addslashes($menu->name) }}',
                     {{ $menu->price }},
                     '{{ $menu->image ?? '' }}'
                 )"
+                @endif
             >
 
                 <div class="w-16 h-16 md:w-20 md:h-20 rounded-lg mb-1 md:mb-2 overflow-hidden bg-gray-300 flex items-center justify-center">
@@ -61,7 +66,7 @@
                     @endif
                 </div>
 
-                @if($menu->stock <= 0)
+                @if($isHabis)
                     <span class="sold-out-badge">Habis</span>
                 @endif
 
@@ -77,14 +82,16 @@
 
                     <button
                         type="button"
+                        @if(!$isHabis)
                         onclick="event.stopPropagation(); addToCart(
                             {{ $menu->id }},
                             '{{ addslashes($menu->name) }}',
                             {{ $menu->price }},
                             '{{ $menu->image ?? '' }}'
                         )"
-                        @if($menu->stock <= 0) disabled @endif
-                        class="rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center flex-shrink-0 transition {{ $menu->stock <= 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-700 hover:bg-green-800 text-white' }}"
+                        @endif
+                        @if($isHabis) disabled @endif
+                        class="rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center flex-shrink-0 transition {{ $isHabis ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-700 hover:bg-green-800 text-white' }}"
                     >
                         <i class="ri-add-line text-xs md:text-sm"></i>
                     </button>

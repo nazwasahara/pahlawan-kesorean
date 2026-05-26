@@ -50,8 +50,17 @@ class MenuController extends Controller
         $menu->name = $data['name'];
         $menu->category_id = $data['category_id'];
         $menu->price = $data['price'];
-        $menu->stock = $data['stock'];
-        $menu->is_available = $data['is_available'];
+        $stock = (int) $data['stock'];
+        $isAvailable = (int) $data['is_available'];
+        if ($stock === 0) {
+            $isAvailable = 0;
+        }
+        if ($isAvailable === 0) {
+            $stock = 0;
+        }
+        
+        $menu->stock = $stock;
+        $menu->is_available = $isAvailable;
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('menus', 'public');
@@ -83,8 +92,17 @@ class MenuController extends Controller
         $menu->name = $data['name'];
         $menu->category_id = $data['category_id'];
         $menu->price = $data['price'];
-        $menu->stock = $data['stock'];
-        $menu->is_available = $data['is_available'];
+        $stock = (int) $data['stock'];
+        $isAvailable = (int) $data['is_available'];
+        if ($stock === 0) {
+            $isAvailable = 0;
+        }
+        if ($isAvailable === 0) {
+            $stock = 0;
+        }
+        
+        $menu->stock = $stock;
+        $menu->is_available = $isAvailable;
 
         if ($request->hasFile('image')) {
             // Delete old image if exists
